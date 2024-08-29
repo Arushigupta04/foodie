@@ -3,8 +3,8 @@ import InfoImage from '../../assets/info.svg';
 import VegIcon from "../../assets/veg.svg";
 import { CartContext } from '../Cart/CartContext';
 import { useUser } from "../userContext";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify'; // Importing toast
+import 'react-toastify/dist/ReactToastify.css'; // Importing toast styles
 
 const FoodItem = ({ item }) => {
   const { _id, item_src, item_title, item_type, item_price, item_offer } = item;
@@ -15,20 +15,20 @@ const FoodItem = ({ item }) => {
   const handleAddToCart = () => {
     if (user) {
       addItemToCart(item);
-      toast.success(`${item_title} added to cart`);
+      // toast.success(`${item_title} added to cart`); // Show success toast
     } else {
-      toast.info("Please Sign In to Add Items to your Cart.");
+      toast.info("Please Sign In to Add Items to your Cart."); // Show info toast
     }
   };
 
   const handleRemoveFromCart = () => {
     removeItemFromCart(_id);
-    toast.success(`${item_title} removed from cart`);
+    // toast.success(`${item_title} removed from cart`); // Removed toast notification
   };
-
+  
   const itemInCart = cartItems.find((cartItem) => cartItem._id === _id);
   const quantityInCart = itemInCart ? itemInCart.quantity : 0;
-
+  
   return (
     <div className="item-card">
       <img src={item_src} alt="" className="item-image" />
@@ -62,6 +62,6 @@ const FoodItem = ({ item }) => {
       </div>
     </div>
   );
-};
+};  
 
 export default FoodItem;

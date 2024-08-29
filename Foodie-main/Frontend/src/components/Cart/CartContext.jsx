@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { toast } from 'react-toastify'; // Import toast
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
 export const CartContext = createContext();
 
@@ -21,14 +23,18 @@ export const CartProvider = ({ children }) => {
         quantity: updatedCart[existingItemIndex].quantity + 1,
       };
       setCartItems(updatedCart);
+      toast.info(`${item.item_title} quantity increased`); // Show toast for increasing quantity
     } else {
       setCartItems([...cartItems, { ...item, quantity: 1 }]);
+      toast.success(`${item.item_title} added to cart`); // Show toast for adding new item
     }
   };
 
   const removeItemFromCart = (itemId) => {
+    const itemToRemove = cartItems.find((item) => item._id === itemId);
     const updatedCart = cartItems.filter((item) => item._id !== itemId);
     setCartItems(updatedCart);
+    toast.error(`${itemToRemove.item_title} removed from cart`); // Show toast for removing item
   };
 
   const increaseItemQuantity = (itemId) => {
@@ -36,6 +42,7 @@ export const CartProvider = ({ children }) => {
       item._id === itemId ? { ...item, quantity: item.quantity + 1 } : item
     );
     setCartItems(updatedCart);
+    toast.info('Item quantity increased'); // Show toast for increasing quantity
   };
 
   const decreaseItemQuantity = (itemId) => {
@@ -43,10 +50,12 @@ export const CartProvider = ({ children }) => {
       item._id === itemId && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
     );
     setCartItems(updatedCart);
+    toast.info('Item quantity decreased'); // Show toast for decreasing quantity
   };
 
   const clearCart = () => {
     setCartItems([]);
+    toast.success('Cart cleared'); // Show toast for clearing cart
   };
 
   const getCartTotal = () => {

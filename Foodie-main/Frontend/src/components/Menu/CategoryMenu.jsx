@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CategoryItem from './CategoryItem';
 import FoodItem from './FoodItem';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// Removed toast and ToastContainer imports
 
 const CategoryMenu = ({ items }) => {
   const [selectedCategory, setSelectedCategory] = useState(0);
@@ -16,7 +15,7 @@ const CategoryMenu = ({ items }) => {
       top: scrollToPosition,
       behavior: 'smooth'
     });
-    toast.info(`Selected category: ${items[index].category_title}`);
+    // Removed toast notification
   };
 
   const updateSelectedCategoryByScroll = () => {
@@ -39,7 +38,7 @@ const CategoryMenu = ({ items }) => {
 
   useEffect(() => {
     if (!items || items.length === 0) {
-      toast.warn('No items available');
+      // Removed toast notification
     }
   }, [items]);
 
@@ -80,7 +79,7 @@ const CategoryMenu = ({ items }) => {
           ))}
         </div>
       </div>
-      <ToastContainer />
+      {/* Removed ToastContainer */}
     </>
   );
 };
