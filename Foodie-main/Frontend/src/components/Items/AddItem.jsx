@@ -8,32 +8,39 @@ const AddItemForm = ({ categories, onAddItem }) => {
   const [offer, setOffer] = useState('');
   const [image, setImage] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-console.log(categories)
+  const [error, setError] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    if (!selectedCategory) {
+      setError('Please select a category.');
+      return;
+    }
+
     const newItem = {
       item_title: title,
       item_type: type,
       item_price: price,
-      item_offer: offer,
+      item_offer: offer || null, // Set to null if not provided
       item_src: image
     };
-    if (selectedCategory) {
-      onAddItem(selectedCategory, newItem);
-     
-      setTitle('');
-      setType('veg');
-      setPrice('');
-      setOffer('');
-      setImage('');
-      setSelectedCategory('');
-    } else {
-      console.error('Please select a category.');
-    }
+
+    onAddItem(selectedCategory, newItem);
+    
+    // Clear form fields
+    setTitle('');
+    setType('veg');
+    setPrice('');
+    setOffer('');
+    setImage('');
+    setSelectedCategory('');
+    setError('');  // Clear any existing error after successful submission
   };
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
+      {error && <div className="error-message">{error}</div>}
       <div className="form-group">
         <label>Title:</label>
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -47,14 +54,14 @@ console.log(categories)
       </div>
       <div className="form-group">
         <label>Price:</label>
-        <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} required />
+        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} required />
       </div>
       <div className="form-group">
         <label>Offer:</label>
         <input type="text" value={offer} onChange={(e) => setOffer(e.target.value)} />
       </div>
       <div className="form-group">
-        <label>Image:</label>
+        <label>Image URL:</label>
         <input type="text" value={image} onChange={(e) => setImage(e.target.value)} required />
       </div>
       <div className="form-group">

@@ -1,43 +1,94 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './footer.css';
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import instagramIcon from '../../assets/instagram.svg';
 import twitterIcon from '../../assets/twitter.svg';
 import facebookIcon from '../../assets/facebook.svg';
 
 function Footer() {
+  const [email, setEmail] = useState('');
+  const [feedback, setFeedback] = useState('');
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    toast.success('Thank you for subscribing!');
+  };
+
+  const handleFeedbackSubmit = (e) => {
+    e.preventDefault();
+    toast.success('Thank you for your feedback!');
+    setFeedback('');
+  };
+
   return (
     <div className="footer">
       <div className="footer1">
         <div className="footer1-grid">
           <div className="footer-list">
-            <h4>Foodie</h4>
-            <p><a href="#">About</a></p>
-            <p><a href="#">Help and Support</a></p>
-            <p><a href="#">Contact Us</a></p>
-            <p><a href="#">Delivery Policies</a></p>
-            <p><a href="#">Privacy Policies</a></p>
+            <h4>Quick Links</h4>
+            <p><a href="#">Home</a></p>
+            <p><a href="#">Services</a></p>
+            <p><a href="#">Products</a></p>
+            <p><a href="#">Blog</a></p>
           </div>
           <div className="footer-list">
-            <h4>Explore</h4>
-            <p><a href="#">Offers</a></p>
-            <p><a href="#">Disclaimers</a></p>
-            <p><a href="#">Refer and Earn</a></p>
-            <p><a href="#">Investors</a></p>
-            <p><a href="#">Vendors</a></p>
+            <h4>Company</h4>
+            <p><a href="#">About Us</a></p>
+            <p><a href="#">Careers</a></p>
+            <p><a href="#">Press</a></p>
           </div>
           <div className="footer-list follow-box">
-            <h4>Follow</h4>
-            <img className="icon-imgg btn" src={instagramIcon} alt="Instagram" />
-            <img className="icon-imgg btn" src={twitterIcon} alt="Twitter" />
-            <img className="icon-imgg btn" src={facebookIcon} alt="Facebook" />
+            <h4>Follow Us</h4>
+            <div className="social-media">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <img className="icon-img" src={instagramIcon} alt="Instagram" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <img className="icon-img" src={twitterIcon} alt="Twitter" />
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                <img className="icon-img" src={facebookIcon} alt="Facebook" />
+              </a>
+            </div>
+          </div>
+          <div className="footer-list">
+            <h4>Contact Us</h4>
+            <p>Email: <a href="mailto:info@foodie.com">info@foodie.com</a></p>
+            <p>Phone: <a href="tel:+1234567890">+1 234 567 890</a></p>
+            <p>Address: 123 Foodie Lane, Foodtown, Chandigarh</p>
+          </div>
+          <div className="footer-list">
+            <h4>Subscribe to our Newsletter</h4>
+            <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+          <div className="footer-list">
+            <h4>Feedback</h4>
+            <form onSubmit={handleFeedbackSubmit} className="feedback-form">
+              <textarea
+                placeholder="Your feedback"
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                required
+              />
+              <button type="submit">Submit</button>
+            </form>
           </div>
         </div>
       </div>
       <div className="footer2">
-        <p id="copyright-txt">All Right Reserved &copy;2024 Foodie</p>
+        <p id="copyright-txt">All Rights Reserved &copy;2024 Foodie</p>
       </div>
+      <ToastContainer />
     </div>
   );
 }

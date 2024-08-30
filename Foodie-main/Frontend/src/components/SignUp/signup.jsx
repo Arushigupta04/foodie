@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./signup.css";
 import SignUpImage from "../../assets/register.jpg";
 
-// const serverURL = "http://192.168.54.63:5000"
 const serverURL = "http://localhost:5000";
 
 const SignUp = () => {
@@ -13,34 +12,18 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
   const [mobile, setMobile] = useState('');
-  const [roles, setRoles] = useState([]); // Array to hold selected roles
-
-  const handleRoleChange = (role) => {
-    setRoles((prevRoles) =>
-      prevRoles.includes(role)
-        ? prevRoles.filter((r) => r !== role)
-        : [...prevRoles, role]
-    );
-  };
+  const [role, setRole] = useState('User');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check for missing fields
     if (!fullName || !email || !password || !repeatedPassword || !mobile) {
       toast.error('Please fill in all fields');
       return;
     }
 
-    // Check for password match
     if (password !== repeatedPassword) {
       toast.error('Passwords do not match');
-      return;
-    }
-
-    // Ensure at least one role is selected
-    if (roles.length === 0) {
-      toast.error('Please select at least one role');
       return;
     }
 
@@ -50,7 +33,7 @@ const SignUp = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ fullName, email, password, mobile, roles }),
+        body: JSON.stringify({ fullName, email, password, mobile, role }),
       });
 
       const data = await response.json();
@@ -62,7 +45,7 @@ const SignUp = () => {
         setPassword('');
         setRepeatedPassword('');
         setMobile('');
-        setRoles([]);
+        setRole('User');
         setTimeout(() => window.location.href = '/sign-in', 2000);
       } else {
         toast.error(data.error || 'Something went wrong');
@@ -91,6 +74,7 @@ const SignUp = () => {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
+              className="border p-2 rounded w-full"
             />
           </div>
           <div className="form-group">
@@ -102,6 +86,7 @@ const SignUp = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="border p-2 rounded w-full"
             />
           </div>
           <div className="form-group">
@@ -113,22 +98,9 @@ const SignUp = () => {
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
               required
+              className="border p-2 rounded w-full"
             />
           </div>
-          <div className="form-group">
-  <label className="flex items-center space-x-2 mt-2">
-    <input
-      type="checkbox"
-      name="role"
-      value="Admin"
-      checked={roles.includes('Admin')}
-      onChange={() => handleRoleChange('Admin')}
-      className="form-checkbox h-16 w-5 text-blue-600"
-    />
-    <span className="text-black">Admin</span>
-  </label>
-</div>
-
           <div className="form-group">
             <input
               type="password"
@@ -138,6 +110,7 @@ const SignUp = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="border p-2 rounded w-full"
             />
           </div>
           <div className="form-group">
@@ -149,23 +122,33 @@ const SignUp = () => {
               value={repeatedPassword}
               onChange={(e) => setRepeatedPassword(e.target.value)}
               required
+              className="border p-2 rounded w-full"
             />
           </div>
 
           {/* Role Selection */}
-          {/* <div className="form-group mb-4">
-  <label className="flex items-center space-x-2 mt-2">
+          <div className="form-group checkbox-group">
+  {/* <label> */}
+    {/* <input
+      type="checkbox"
+      name="role"
+      value="User"
+      checked={role === 'User'}
+      onChange={(e) => setRole(e.target.value)}
+    />
+    User
+  </label> */}
+  <label>
     <input
       type="checkbox"
       name="role"
       value="Admin"
-      checked={roles.includes('Admin')}
-      onChange={() => handleRoleChange('Admin')}
-      className="form-checkbox h-16 w-5 text-blue-600"
+      checked={role === 'Admin'}
+      onChange={(e) => setRole(e.target.value)}
     />
-    <span className="text-black">Admin</span>
+    Admin
   </label>
-</div> */}
+</div>
 
 
           <div className="form-group form-button">
@@ -176,8 +159,8 @@ const SignUp = () => {
       <div className="signup-image">
         <figure><img src={SignUpImage} alt="sign up" /></figure>
         <div className='already-signup'>
-          <div>Already a Member ? </div>
-          <button onClick={handleSignInClick} className="signup-image-link  mt-">SignIn</button>
+          <div>Already a Member?</div>
+          <button onClick={handleSignInClick} className="signup-image-link">SignIn</button>
         </div>
       </div>
       <ToastContainer />
