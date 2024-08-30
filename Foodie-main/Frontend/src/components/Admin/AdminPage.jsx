@@ -168,11 +168,11 @@ function AdminDashboard() {
                                           <h5 className="card-title">{order.name}</h5>
                                           <div className="text-container">
                                             <h6>User Name:</h6>
-                                            <p>&nbsp;&nbsp;{order.user.fullName ? order.user.fullName : 'N/A'}</p>
+                                            <p>&nbsp;&nbsp;{user.fullName ?user.fullName : 'N/A'}</p>
                                           </div>
                                           <div className="text-container">
                                             <h6>Email:</h6>
-                                            <p>&nbsp;&nbsp;{order.user.email}</p>
+                                            <p>&nbsp;&nbsp;{user.email}</p>
                                           </div>
                                           <div className="text-container">
                                             <h6>Price:</h6>

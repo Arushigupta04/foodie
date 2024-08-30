@@ -16,7 +16,7 @@ ConnectMongoDB("mongodb://127.0.0.1:27017/foodie")
   .then(() => console.log("MongoDB Connected Successfully."))
   .catch((err) => console.log("Error Connecting MongoDB", err));
 
-// mongodb://localhost:27017/foodie
+// 
 // mongodb+srv://patidarayush7211:a2a2a2a2a2@foodie.z8llkmq.mongodb.net/foodie
 
 app.use(express.urlencoded({ extended: false }));

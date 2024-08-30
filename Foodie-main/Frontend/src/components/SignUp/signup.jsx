@@ -5,7 +5,7 @@ import "./signup.css";
 import SignUpImage from "../../assets/register.jpg";
 
 // const serverURL = "http://192.168.54.63:5000"
-const serverURL = "http://localhost:5000"
+const serverURL = "http://localhost:5000";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState('');
@@ -13,6 +13,15 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [repeatedPassword, setRepeatedPassword] = useState('');
   const [mobile, setMobile] = useState('');
+  const [roles, setRoles] = useState([]); // Array to hold selected roles
+
+  const handleRoleChange = (role) => {
+    setRoles((prevRoles) =>
+      prevRoles.includes(role)
+        ? prevRoles.filter((r) => r !== role)
+        : [...prevRoles, role]
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,13 +38,19 @@ const SignUp = () => {
       return;
     }
 
+    // Ensure at least one role is selected
+    if (roles.length === 0) {
+      toast.error('Please select at least one role');
+      return;
+    }
+
     try {
       const response = await fetch(`${serverURL}/api/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ fullName, email, password, mobile }),
+        body: JSON.stringify({ fullName, email, password, mobile, roles }),
       });
 
       const data = await response.json();
@@ -47,6 +62,7 @@ const SignUp = () => {
         setPassword('');
         setRepeatedPassword('');
         setMobile('');
+        setRoles([]);
         setTimeout(() => window.location.href = '/sign-in', 2000);
       } else {
         toast.error(data.error || 'Something went wrong');
@@ -99,6 +115,19 @@ const SignUp = () => {
               required
             />
           </div>
+          <div className="form-group">
+  <label className="flex items-center space-x-2 mt-2">
+    <input
+      type="checkbox"
+      name="role"
+      value="Admin"
+      checked={roles.includes('Admin')}
+      onChange={() => handleRoleChange('Admin')}
+      className="form-checkbox h-16 w-5 text-blue-600"
+    />
+    <span className="text-black">Admin</span>
+  </label>
+</div>
 
           <div className="form-group">
             <input
@@ -122,6 +151,23 @@ const SignUp = () => {
               required
             />
           </div>
+
+          {/* Role Selection */}
+          {/* <div className="form-group mb-4">
+  <label className="flex items-center space-x-2 mt-2">
+    <input
+      type="checkbox"
+      name="role"
+      value="Admin"
+      checked={roles.includes('Admin')}
+      onChange={() => handleRoleChange('Admin')}
+      className="form-checkbox h-16 w-5 text-blue-600"
+    />
+    <span className="text-black">Admin</span>
+  </label>
+</div> */}
+
+
           <div className="form-group form-button">
             <input type="submit" name="signup" id="signup" className="form-submit" value="Register" />
           </div>
@@ -131,7 +177,7 @@ const SignUp = () => {
         <figure><img src={SignUpImage} alt="sign up" /></figure>
         <div className='already-signup'>
           <div>Already a Member ? </div>
-          <button onClick={handleSignInClick} className="signup-image-link">SignIn</button>
+          <button onClick={handleSignInClick} className="signup-image-link  mt-">SignIn</button>
         </div>
       </div>
       <ToastContainer />

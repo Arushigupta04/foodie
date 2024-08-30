@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const OrderConfirmation = ({ orderDetails, orderId }) => {
+  
+  useEffect(() => {
+    toast.success('Your order has been successfully placed!');
+  }, []);
+  
   return (
     <div className="card mb-4">
+      <ToastContainer />
       <div className="card-header">
         <h5 className="mb-0">Order Confirmation</h5>
       </div>
