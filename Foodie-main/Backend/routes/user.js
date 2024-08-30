@@ -58,13 +58,15 @@ router.post("/signin", async (req, res) => {
 // Sign up route with email sending functionality
 router.post("/signup", async (req, res) => {
   console.log("SignUp Request Received");
-  const { fullName, email, password, mobile } = req.body;
+  const { fullName, email, password, mobile,role } = req.body;
   try {
     const newUser = await USER.create({
       fullName,
       email,
       password,
       mobile,
+      role
+
     });
 
     const subject = 'Welcome to Our Service!';
